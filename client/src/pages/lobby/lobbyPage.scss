@@ -1,0 +1,23 @@
+.lobby-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  .code-block {
+    border: 3px solid #000000;
+    border-radius: 0.5rem;
+    width: 20rem;
+    font-size: 1.5rem;
+    background-color: #fff;
+    padding: 1rem 0.5rem;
+    transition: all 0.15s ease-in-out;
+    &:hover {
+      transform: scale(1.1);
+      cursor: pointer;
+      -webkit-box-shadow: 0px 0px 67px -20px rgba(0, 0, 0, 1);
+      -moz-box-shadow: 0px 0px 67px -20px rgba(0, 0, 0, 1);
+      box-shadow: 0px 0px 67px -20px rgba(0, 0, 0, 1);
+    }
+  }
+}

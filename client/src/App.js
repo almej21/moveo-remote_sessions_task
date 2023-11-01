@@ -1,4 +1,4 @@
-import StateProvider from "context/StateProvider.js";
+import AppProvider from "context/AppProvider.js";
 import CodePage from "pages/code/CodePage";
 import LobbyPage from "pages/lobby/LobbyPage";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
@@ -8,15 +8,15 @@ import Navbar from "./components/navbar/Navbar";
 function App() {
   return (
     <Router>
-      <StateProvider>
+      <AppProvider>
         <div className="App">
           <Navbar />
           <Routes>
             <Route path="/lobby" element={<LobbyPage />} />
-            <Route path="/code" element={<CodePage />} />
+            <Route path="/codeblock/:id" element={<CodePage />} />
           </Routes>
         </div>
-      </StateProvider>
+      </AppProvider>
     </Router>
   );
 }

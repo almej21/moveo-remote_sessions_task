@@ -35,4 +35,23 @@ router.get("/all", async (req, res) => {
   }
 });
 
+//get one code block.
+router.get("", async (req, res) => {
+  const id = req.query.targetId;
+
+  try {
+    const codeBlock = await CodeBlock.findOne({ _id: id }).lean();
+    if (!codeBlock) {
+      res.status(404).json({ message: "no code block found" });
+      return;
+    }
+
+    res.status(200).json(codeBlock);
+    return;
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({ message: err });
+  }
+});
+
 module.exports = router;
