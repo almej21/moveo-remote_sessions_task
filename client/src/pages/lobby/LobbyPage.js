@@ -1,9 +1,5 @@
-import React from 'react'
-
 const LobbyPage = () => {
-  return (
-    <div>LobbyPage</div>
-  )
-}
+  return <div className="CodePage body">Choose code block</div>;
+};
 
-export default LobbyPage
+export default LobbyPage;
