@@ -22,8 +22,16 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
   console.log(`user connected: ${socket.id}`);
 
-  
+  socket.on("joining", (codeBlockId) => {
+    console.log("user joined code block with _id: ", codeBlockId);
+    socket.broadcast.emit("mentor joined", codeBlockId);
+  });
+
+  socket.on("typing", (code) => {
+    socket.broadcast.emit("new code", code);
+  });
 });
+
 mongoose
   .connect(process.env.DB_URL)
   .then(() => {

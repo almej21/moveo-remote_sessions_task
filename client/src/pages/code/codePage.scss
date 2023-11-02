@@ -6,8 +6,59 @@
   overflow: auto;
 }
 
+.hidden {
+  display: none !important;
+}
+
+.title-lines-container {
+  display: flex;
+  width: 70rem;
+  justify-content: space-between;
+  align-items: center;
+
+  label {
+    font-size: 1.4rem;
+  }
+  .checkbox {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
+.code-container {
+  display: flex;
+  .code-lines {
+    display: flex;
+    flex-direction: column;
+    background-color: #222;
+    border-radius: 1rem 0 0 1rem;
+    :first-child {
+      padding-top: 14px;
+    }
+  }
+  p {
+    margin: 1.6px 0 0 0 !important;
+    text-align: right;
+    color: #bdbdbd;
+  }
+}
+
+.save-btn {
+  margin-top: 2rem;
+  font-weight: bold;
+}
+
+#editor {
+  height: 30rem;
+  outline: 0;
+}
+
 .pre {
-  overflow: hidden;
+  overflow: hidden !important;
+  margin: 0 !important;
+  height: 50rem;
 }
 
 .language-js {

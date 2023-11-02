@@ -54,4 +54,19 @@ router.get("", async (req, res) => {
   }
 });
 
+router.put("/update", async (req, res) => {
+  const { codeBlockId, code } = req.body;
+
+  const updatedCodeBlock = await CodeBlock.findByIdAndUpdate(codeBlockId, {
+    code: code,
+  });
+
+  if (!updatedCodeBlock) {
+    res.status(404);
+    throw new Error("CodeBlock Not Found");
+  } else {
+    res.json({ message: "CodeBlock was updated" });
+  }
+});
+
 module.exports = router;

@@ -4,9 +4,14 @@ import { useNavigate } from "react-router-dom";
 import "./lobbyPage.scss";
 
 const LobbyPage = () => {
-  // const { codeBlocks } = AppState();
-  const { codeBlocks, selectedCodeBlock, setSelectedCodeBlock } = AppState();
-  // const [selectedCodeBlock, setSelectedCodeBlock] = useState({});
+  const {
+    codeBlocks,
+    selectedCodeBlockObj,
+    setSelectedCodeBlockObj,
+    socket,
+    mentorSelectedCodeBlockId,
+    setMentorSelectedCodeBlockId,
+  } = AppState();
 
   const navigate = useNavigate();
 
@@ -16,12 +21,18 @@ const LobbyPage = () => {
   }, []);
 
   useEffect(() => {
+    socket.on("mentor joined", (codeBlockId) => {
+      console.log(`mentor joined code block with ID: ${codeBlockId}`);
+      setMentorSelectedCodeBlockId(codeBlockId);
+    });
+  }, [socket]);
+
+  useEffect(() => {
     if (justMounted) {
       return;
     }
-    navigate(`/codeblock/${selectedCodeBlock._id}`);
-    console.log("useEffect triggered");
-  }, [selectedCodeBlock]);
+    navigate(`/codeblock/${selectedCodeBlockObj._id}`);
+  }, [selectedCodeBlockObj]);
 
   return (
     <div className="lobby-page body">
@@ -30,10 +41,10 @@ const LobbyPage = () => {
         return (
           <div
             key={codeBlock._id}
-            className="code-block"
-            onClick={() => setSelectedCodeBlock(codeBlock)}
+            className="code-block btn"
+            onClick={() => setSelectedCodeBlockObj(codeBlock)}
           >
-            {codeBlock.title}
+            {`${codeBlock.title}`}
           </div>
         );
       })}

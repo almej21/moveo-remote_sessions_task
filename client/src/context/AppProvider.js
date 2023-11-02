@@ -1,17 +1,22 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import io from "socket.io-client";
 import * as ServerApi from "utils/serverApi";
 
 export const AppContext = createContext();
 
+const socket = io.connect("http://localhost:4000");
+
 const AppProvider = ({ children }) => {
   const [codeBlocks, setCodeBlocks] = useState([]);
-  const [selectedCodeBlock, setSelectedCodeBlock] = useState({});
+  const [selectedCodeBlockObj, setSelectedCodeBlockObj] = useState({});
+  const [mentorSelectedCodeBlockId, setMentorSelectedCodeBlockId] =
+    useState("");
 
   useEffect(() => {
     ServerApi.fetchCodeBlocks()
       .then((codeBlocksFromResponse) => {
         setCodeBlocks(codeBlocksFromResponse);
-        console.log(codeBlocksFromResponse);
+        // console.log(codeBlocksFromResponse);
       })
       .catch((err) => {
         console.log(err);
@@ -23,8 +28,11 @@ const AppProvider = ({ children }) => {
       value={{
         codeBlocks,
         setCodeBlocks,
-        selectedCodeBlock,
-        setSelectedCodeBlock,
+        selectedCodeBlockObj,
+        setSelectedCodeBlockObj,
+        socket,
+        mentorSelectedCodeBlockId,
+        setMentorSelectedCodeBlockId,
       }}
     >
       {children}

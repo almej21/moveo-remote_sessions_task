@@ -16,7 +16,7 @@ export const fetchCodeBlocks = () => {
   });
 };
 
-export const fetchCodeBlock = (id) => {
+export const fetchCodeBlockById = (id) => {
   return new Promise((resolve, reject) => {
     axios
       .get("http://localhost:4000/codeblock", {
@@ -30,6 +30,20 @@ export const fetchCodeBlock = (id) => {
       .catch((error) => {
         console.error("Error:", error);
         reject(error);
+      });
+  });
+};
+
+export const saveCode = (data) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put("http://localhost:4000/codeblock/update", data)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        reject(err);
       });
   });
 };
