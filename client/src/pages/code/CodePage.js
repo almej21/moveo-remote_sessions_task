@@ -2,6 +2,8 @@ import { AppState } from "context/AppProvider";
 import Prism from "prismjs";
 import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "styles/prism-cb.css";
 import * as ServerApi from "utils/serverApi";
 import "./codePage.scss";
@@ -20,6 +22,7 @@ function createNumberArray(n) {
 
 const CodePage = () => {
   const codeBlockRef = useRef(null);
+  const notify = () => toast.success("Saved!");
   const { id } = useParams();
   const {
     selectedCodeBlockObj,
@@ -69,26 +72,28 @@ const CodePage = () => {
     socket.emit("typing", codeBlock.target.outerText);
   };
 
-  const handleClick = () => {
-    // console.log(codeBlockRef.current.outerText);
+  const handleSave = () => {
     const dataObj = {
       codeBlockId: id,
       code: codeBlockRef.current.outerText,
     };
     ServerApi.saveCode(dataObj)
       .then(() => {
-        alert("saved!");
+        console.log("saved!");
+        notify();
       })
       .catch((err) => {});
   };
 
   const toggleHidden = () => {
     const lineNums = document.getElementById("lines");
-    console.log(lineNums);
+    const codeEditor = document.getElementById("editor-container");
 
     if (lineNums.classList.contains("hidden")) {
       lineNums.classList.remove("hidden");
+      codeEditor.classList.remove("with-line-nums");
     } else {
+      codeEditor.classList.add("with-line-nums");
       lineNums.classList.add("hidden");
     }
   };
@@ -113,7 +118,7 @@ const CodePage = () => {
             return <p key={el}>{el}</p>;
           })}
         </div>
-        <pre className="pre">
+        <pre className="pre" id="editor-container">
           <code
             ref={codeBlockRef}
             id="editor"
@@ -126,9 +131,21 @@ const CodePage = () => {
           </code>
         </pre>
       </div>
-      <div className="btn save-btn" onClick={handleClick}>
+      <div className="btn save-btn" onClick={handleSave}>
         SAVE
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={2500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </>
   );
 };

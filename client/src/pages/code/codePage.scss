@@ -35,7 +35,7 @@
     background-color: #222;
     border-radius: 1rem 0 0 1rem;
     :first-child {
-      padding-top: 14px;
+      padding-top: 12px;
     }
   }
   p {
@@ -43,6 +43,10 @@
     text-align: right;
     color: #bdbdbd;
   }
+}
+
+.with-line-nums {
+  border-radius: 1rem 1rem 1rem 1rem !important;
 }
 
 .save-btn {

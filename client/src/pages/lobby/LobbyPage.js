@@ -1,23 +1,28 @@
 import { AppState } from "context/AppProvider";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./lobbyPage.scss";
 
 const LobbyPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const {
     codeBlocks,
-    selectedCodeBlockObj,
     setSelectedCodeBlockObj,
     socket,
-    mentorSelectedCodeBlockId,
     setMentorSelectedCodeBlockId,
   } = AppState();
 
-  const navigate = useNavigate();
+  console.log(`lobby page`);
 
   let justMounted;
+
   useEffect(() => {
     justMounted = true;
+    if (location.pathname === "/" || "lobby") {
+      setSelectedCodeBlockObj({});
+    }
   }, []);
 
   useEffect(() => {
@@ -27,13 +32,6 @@ const LobbyPage = () => {
     });
   }, [socket]);
 
-  useEffect(() => {
-    if (justMounted) {
-      return;
-    }
-    navigate(`/codeblock/${selectedCodeBlockObj._id}`);
-  }, [selectedCodeBlockObj]);
-
   return (
     <div className="lobby-page body">
       <h1 className="title">Choose code block</h1>
@@ -42,7 +40,7 @@ const LobbyPage = () => {
           <div
             key={codeBlock._id}
             className="code-block btn"
-            onClick={() => setSelectedCodeBlockObj(codeBlock)}
+            onClick={() => navigate(`/codeblock/${codeBlock._id}`)}
           >
             {`${codeBlock.title}`}
           </div>

@@ -18,11 +18,6 @@ const Navbar = () => {
             LOBBY
           </Link>
         </li>
-        <li>
-          <Link className="link" to="/code">
-            CODE
-          </Link>
-        </li>
       </div>
       <div
         className={`nav-toggle ${isOpen && "open"}`}

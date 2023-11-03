@@ -12,7 +12,8 @@ function App() {
         <div className="App">
           <Navbar />
           <Routes>
-            <Route path="/lobby" element={<LobbyPage />} />
+            <Route element={<LobbyPage />} index />
+            <Route path="/lobby" element={<LobbyPage />} index />
             <Route path="/codeblock/:id" element={<CodePage />} />
           </Routes>
         </div>
