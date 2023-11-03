@@ -46,10 +46,10 @@ const LobbyPage = () => {
 
   const handleCodeBlockClick = (codeBlockObj) => {
     navigate(`/codeblock/${codeBlockObj._id}`);
-    if (LocalStorage.get("mentorSelectedCodeBlockWithId")) {
-      socket.emit("joining", codeBlockObj);
-    } else {
+    if (!LocalStorage.get("mentorSelectedCodeBlockWithId")) {
       socket.emit("mentor joined", codeBlockObj);
+    } else {
+      socket.emit("joining", codeBlockObj);
     }
   };
 
@@ -71,7 +71,7 @@ const LobbyPage = () => {
       })}
       <ToastContainer
         position="top-center"
-        autoClose={2500}
+        autoClose={3500}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

@@ -27,13 +27,7 @@ const CodePage = () => {
   const notify = () => toast.success("Saved!");
   const { id } = useParams();
   const currCodeBlockId = id;
-  const {
-    selectedCodeBlockObj,
-    setSelectedCodeBlockObj,
-    socket,
-    mentorSelectedCodeBlockId,
-    setMentorSelectedCodeBlockId,
-  } = AppState();
+  const { selectedCodeBlockObj, setSelectedCodeBlockObj, socket } = AppState();
 
   if (isEmpty(selectedCodeBlockObj)) {
     ServerApi.fetchCodeBlockById(id)
@@ -86,7 +80,6 @@ const CodePage = () => {
     };
     ServerApi.saveCode(dataObj)
       .then(() => {
-        console.log("saved!");
         notify();
       })
       .catch((err) => {});
@@ -130,7 +123,7 @@ const CodePage = () => {
             ref={codeBlockRef}
             id="editor"
             contentEditable={false}
-            className={`language-js`}
+            className="language-javascript"
             onInput={handleChange}
             suppressContentEditableWarning={true}
           >
