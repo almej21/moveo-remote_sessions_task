@@ -12,10 +12,12 @@
 
 .title-lines-container {
   display: flex;
-  width: 70rem;
+  width: 55rem;
   justify-content: space-between;
   align-items: center;
-
+  @media (max-width: 1000px) {
+    width: 40rem;
+  }
   label {
     font-size: 1.4rem;
   }
@@ -29,6 +31,9 @@
 
 .code-container {
   display: flex;
+  @media (max-width: 1000px) {
+    width: 40rem;
+  }
   .code-lines {
     display: flex;
     flex-direction: column;
@@ -60,13 +65,13 @@
 }
 
 .pre {
-  overflow: hidden !important;
+  overflow: hidden;
   margin: 0 !important;
   height: 50rem;
 }
 
 .language-js {
-  width: 68rem;
+  width: 55rem;
 }
 
 .line-numbers {

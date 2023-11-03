@@ -5,7 +5,9 @@ import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "styles/prism-cb.css";
+import * as LocalStorage from "utils/localStorage";
 import * as ServerApi from "utils/serverApi";
+
 import "./codePage.scss";
 
 function isEmpty(obj) {
@@ -24,11 +26,13 @@ const CodePage = () => {
   const codeBlockRef = useRef(null);
   const notify = () => toast.success("Saved!");
   const { id } = useParams();
+  const currCodeBlockId = id;
   const {
     selectedCodeBlockObj,
     setSelectedCodeBlockObj,
     socket,
     mentorSelectedCodeBlockId,
+    setMentorSelectedCodeBlockId,
   } = AppState();
 
   if (isEmpty(selectedCodeBlockObj)) {
@@ -48,10 +52,12 @@ const CodePage = () => {
   }
 
   useEffect(() => {
-    socket.emit("joining", id);
+    let mentorSelectedCodeBlockWithId = LocalStorage.get(
+      "mentorSelectedCodeBlockWithId"
+    );
 
-    if (id !== mentorSelectedCodeBlockId) {
-      codeBlockRef.current.contentEditable = false;
+    if (mentorSelectedCodeBlockWithId === currCodeBlockId) {
+      codeBlockRef.current.contentEditable = true;
     }
 
     setTimeout(() => {
@@ -63,8 +69,9 @@ const CodePage = () => {
     Prism.highlightAll();
 
     socket.on("new code", (code) => {
-      console.log(code);
-      setSelectedCodeBlockObj({ ...selectedCodeBlockObj, code: code });
+      setSelectedCodeBlockObj((prevCodeBlockObj) => {
+        return { ...prevCodeBlockObj, code: code };
+      });
     });
   }, [socket]);
 
@@ -122,7 +129,7 @@ const CodePage = () => {
           <code
             ref={codeBlockRef}
             id="editor"
-            contentEditable={true}
+            contentEditable={false}
             className={`language-js`}
             onInput={handleChange}
             suppressContentEditableWarning={true}

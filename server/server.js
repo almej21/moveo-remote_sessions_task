@@ -22,9 +22,12 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
   console.log(`user connected: ${socket.id}`);
 
-  socket.on("joining", (codeBlockId) => {
-    console.log("user joined code block with _id: ", codeBlockId);
-    socket.broadcast.emit("mentor joined", codeBlockId);
+  socket.on("mentor joined", (codeBlockObj) => {
+    socket.broadcast.emit("mentor joined", codeBlockObj);
+  });
+
+  socket.on("joining", (codeBlockObj) => {
+    socket.broadcast.emit("student joined", codeBlockObj);
   });
 
   socket.on("typing", (code) => {
