@@ -2,7 +2,9 @@ import AppProvider from "context/AppProvider.js";
 import CodePage from "pages/code/CodePage";
 import LobbyPage from "pages/lobby/LobbyPage";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "./App.css";
+
 import Navbar from "./components/navbar/Navbar";
 
 function App() {
@@ -18,6 +20,18 @@ function App() {
           </Routes>
         </div>
       </AppProvider>
+      <ToastContainer
+        position="top-center"
+        autoClose={3500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </Router>
   );
 }

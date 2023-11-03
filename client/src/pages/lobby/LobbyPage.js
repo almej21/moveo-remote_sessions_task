@@ -1,7 +1,7 @@
 import { AppState } from "context/AppProvider";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as LocalStorage from "utils/localStorage";
 
@@ -18,8 +18,6 @@ const LobbyPage = () => {
     setMentorSelectedCodeBlockId,
   } = AppState();
 
-  console.log(`lobby page`);
-
   let justMounted;
 
   useEffect(() => {
@@ -31,15 +29,21 @@ const LobbyPage = () => {
 
   useEffect(() => {
     socket.on("mentor joined", (codeBlockObj) => {
+      console.log(`Mentor joined: ${codeBlockObj.title}`);
       const notify = () =>
-        toast.success(`Mentor joined: ${codeBlockObj.title}`);
+        toast.success(`Mentor joined: ${codeBlockObj.title}`, {
+          toastId: "Mentor",
+        });
       notify();
       LocalStorage.set("mentorSelectedCodeBlockWithId", codeBlockObj._id);
       setMentorSelectedCodeBlockId(codeBlockObj._id);
     });
 
     socket.on("student joined", (codeBlockObj) => {
-      const notify = () => toast.success(`Student has joined`);
+      const notify = () =>
+        toast.success(`Student has joined: ${codeBlockObj.title}`, {
+          toastId: "Student",
+        });
       notify();
     });
   }, [socket]);
@@ -69,7 +73,7 @@ const LobbyPage = () => {
           </div>
         );
       })}
-      <ToastContainer
+      {/* <ToastContainer
         position="top-center"
         autoClose={3500}
         hideProgressBar={false}
@@ -80,7 +84,7 @@ const LobbyPage = () => {
         draggable
         pauseOnHover
         theme="colored"
-      />
+      /> */}
     </div>
   );
 };

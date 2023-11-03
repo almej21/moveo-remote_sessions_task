@@ -2,7 +2,7 @@ import { AppState } from "context/AppProvider";
 import Prism from "prismjs";
 import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "styles/prism-cb.css";
 import * as LocalStorage from "utils/localStorage";
@@ -24,7 +24,10 @@ function createNumberArray(n) {
 
 const CodePage = () => {
   const codeBlockRef = useRef(null);
-  const notify = () => toast.success("Saved!");
+  const notify = () =>
+    toast.success("Saved!", {
+      toastId: "Saved",
+    });
   const { id } = useParams();
   const currCodeBlockId = id;
   const { selectedCodeBlockObj, setSelectedCodeBlockObj, socket } = AppState();
@@ -134,7 +137,7 @@ const CodePage = () => {
       <div className="btn save-btn" onClick={handleSave}>
         SAVE
       </div>
-      <ToastContainer
+      {/* <ToastContainer
         position="top-center"
         autoClose={2500}
         hideProgressBar={false}
@@ -145,7 +148,7 @@ const CodePage = () => {
         draggable
         pauseOnHover
         theme="colored"
-      />
+      /> */}
     </>
   );
 };
