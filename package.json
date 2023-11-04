@@ -1,0 +1,21 @@
+{
+  "name": "moveo-task",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "server": "nodemon server/server.js",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/almej21/moveo-remote_sessions_task.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/almej21/moveo-remote_sessions_task/issues"
+  },
+  "homepage": "https://github.com/almej21/moveo-remote_sessions_task#readme"
+}

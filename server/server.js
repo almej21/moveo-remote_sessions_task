@@ -9,6 +9,7 @@ const codeBlockRouter = require("./routes/code-block-router.js");
 const cors = require("cors");
 const { Server } = require("socket.io");
 const http = require("http");
+const path = require("path");
 
 const server = http.createServer(app);
 
@@ -55,6 +56,34 @@ app.use(
 );
 
 app.use("/codeblock", codeBlockRouter);
+
+// ---------------------Deployment---------------
+
+const __dirname1 = path.resolve();
+if (process.env.NODE_ENV === "production") {
+  app.use(
+    express.static(
+      path.join(__dirname1.substring(0, __dirname1.length - 7), "/client/build")
+    )
+  );
+
+  app.get("*", (req, res) => {
+    res.sendFile(
+      path.resolve(
+        __dirname1.substring(0, __dirname1.length - 7),
+        "client",
+        "build",
+        "index.html"
+      )
+    );
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is Running Successfully");
+  });
+}
+
+// ---------------------Deployment---------------
 
 // Start the server
 server.listen(port, () => {
