@@ -10,12 +10,7 @@ const LobbyPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const {
-    codeBlocks,
-    setSelectedCodeBlockObj,
-    socket,
-    setMentorSelectedCodeBlockId,
-  } = AppState();
+  const { codeBlocks, setSelectedCodeBlockObj, socket } = AppState();
 
   let justMounted;
 
@@ -37,7 +32,6 @@ const LobbyPage = () => {
           });
         notify();
       } else {
-        // if user joined and he is the second aka student.
         LocalStorage.set("role", "mentor");
         const notify = () =>
           toast.success(`Student joined: ${codeBlockObj.title}`, {
@@ -47,7 +41,6 @@ const LobbyPage = () => {
         notify();
       }
       LocalStorage.set("mentorSelectedCodeBlockWithId", codeBlockObj._id);
-      // setMentorSelectedCodeBlockId(codeBlockObj._id);
     });
 
     socket.on("user left", () => {

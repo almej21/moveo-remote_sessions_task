@@ -48,9 +48,6 @@ const CodePage = () => {
   }
 
   useEffect(() => {
-    let mentorSelectedCodeBlockWithId = LocalStorage.get(
-      "mentorSelectedCodeBlockWithId"
-    );
 
     if (LocalStorage.get("role") === "student") {
       codeBlockRef.current.contentEditable = true;
@@ -96,10 +93,6 @@ const CodePage = () => {
 
   const handleShowSolution = () => {
     codeBlockRef.current.textContent = selectedCodeBlockObj.solution;
-    // setSelectedCodeBlockObj({
-    //   ...selectedCodeBlockObj,
-    //   code: selectedCodeBlockObj.solution,
-    // });
   };
 
   const toggleHidden = () => {
@@ -122,7 +115,6 @@ const CodePage = () => {
       socket.emit("leaving");
       localStorage.removeItem("mentorSelectedCodeBlockWithId");
       localStorage.removeItem("role");
-      // navigate("/lobby", { state: { prev: "code" } });
     };
   }, []);
 
