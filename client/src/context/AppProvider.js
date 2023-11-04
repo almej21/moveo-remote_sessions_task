@@ -4,7 +4,7 @@ import * as ServerApi from "utils/serverApi";
 
 export const AppContext = createContext();
 
-const socket = io.connect("http://localhost:4000");
+const socket = io.connect("/");
 
 const AppProvider = ({ children }) => {
   const [codeBlocks, setCodeBlocks] = useState([]);

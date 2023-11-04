@@ -1,13 +1,12 @@
 import { AppState } from "context/AppProvider";
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as LocalStorage from "utils/localStorage";
 import "./lobbyPage.scss";
 
 const LobbyPage = () => {
-  const location = useLocation();
   const navigate = useNavigate();
 
   const { codeBlocks, setSelectedCodeBlockObj, socket } = AppState();

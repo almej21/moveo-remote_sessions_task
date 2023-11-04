@@ -74,7 +74,5 @@ if (process.env.NODE_ENV === "production") {
 
 // Start the server
 server.listen(port, () => {
-  console.log(
-    chalk.bgGreen(`Server running! and listening at http://localhost:${port}`)
-  );
+  console.log(chalk.bgGreen(`Server running! and listening at port: ${port}`));
 });
