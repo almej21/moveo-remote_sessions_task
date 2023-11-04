@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as LocalStorage from "utils/localStorage";
-
 import "./lobbyPage.scss";
 
 const LobbyPage = () => {
@@ -22,39 +21,63 @@ const LobbyPage = () => {
 
   useEffect(() => {
     justMounted = true;
-    if (location.pathname === "/" || "lobby") {
-      setSelectedCodeBlockObj({});
+    if (LocalStorage.get("role")) {
+      socket.emit("leaving");
     }
   }, []);
 
   useEffect(() => {
-    socket.on("mentor joined", (codeBlockObj) => {
-      console.log(`Mentor joined: ${codeBlockObj.title}`);
-      const notify = () =>
-        toast.success(`Mentor joined: ${codeBlockObj.title}`, {
-          toastId: "Mentor",
-        });
-      notify();
+    socket.on("user joined", (codeBlockObj) => {
+      if (!LocalStorage.get("role") || LocalStorage.get("role") === "student") {
+        // if user joined and he is the first aka mentor.
+        LocalStorage.set("role", "student");
+        const notify = () =>
+          toast.success(`Mentor joined: ${codeBlockObj.title}`, {
+            toastId: "Mentor",
+          });
+        notify();
+      } else {
+        // if user joined and he is the second aka student.
+        LocalStorage.set("role", "mentor");
+        const notify = () =>
+          toast.success(`Student joined: ${codeBlockObj.title}`, {
+            toastId: "Student",
+          });
+
+        notify();
+      }
       LocalStorage.set("mentorSelectedCodeBlockWithId", codeBlockObj._id);
-      setMentorSelectedCodeBlockId(codeBlockObj._id);
+      // setMentorSelectedCodeBlockId(codeBlockObj._id);
     });
 
-    socket.on("student joined", (codeBlockObj) => {
-      const notify = () =>
-        toast.success(`Student has joined: ${codeBlockObj.title}`, {
-          toastId: "Student",
-        });
-      notify();
+    socket.on("user left", () => {
+      let role = JSON.parse(localStorage.getItem("role"));
+      if (role === "mentor") {
+        const notify = () =>
+          toast.success(`student left`, {
+            toastId: "user left",
+          });
+        notify();
+      } else {
+        const notify = () =>
+          toast.success(`mentor left`, {
+            toastId: "user left",
+          });
+        notify();
+      }
+      localStorage.removeItem("mentorSelectedCodeBlockWithId");
+      localStorage.removeItem("role");
     });
   }, [socket]);
 
   const handleCodeBlockClick = (codeBlockObj) => {
-    navigate(`/codeblock/${codeBlockObj._id}`);
-    if (!LocalStorage.get("mentorSelectedCodeBlockWithId")) {
-      socket.emit("mentor joined", codeBlockObj);
-    } else {
-      socket.emit("joining", codeBlockObj);
+    if (!LocalStorage.get("role")) {
+      LocalStorage.set("role", "mentor");
+      LocalStorage.set("mentorSelectedCodeBlockWithId", codeBlockObj._id);
     }
+    navigate(`/codeblock/${codeBlockObj._id}`);
+    socket.emit("joining", codeBlockObj);
+    setSelectedCodeBlockObj(codeBlockObj);
   };
 
   return (
@@ -73,18 +96,6 @@ const LobbyPage = () => {
           </div>
         );
       })}
-      {/* <ToastContainer
-        position="top-center"
-        autoClose={3500}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      /> */}
     </div>
   );
 };

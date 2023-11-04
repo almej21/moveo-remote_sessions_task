@@ -1,7 +1,7 @@
 import { AppState } from "context/AppProvider";
 import Prism from "prismjs";
 import { useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "styles/prism-cb.css";
@@ -23,6 +23,7 @@ function createNumberArray(n) {
 }
 
 const CodePage = () => {
+  const navigate = useNavigate();
   const codeBlockRef = useRef(null);
   const notify = () =>
     toast.success("Saved!", {
@@ -53,7 +54,7 @@ const CodePage = () => {
       "mentorSelectedCodeBlockWithId"
     );
 
-    if (mentorSelectedCodeBlockWithId === currCodeBlockId) {
+    if (LocalStorage.get("role") === "student") {
       codeBlockRef.current.contentEditable = true;
     }
 
@@ -100,6 +101,17 @@ const CodePage = () => {
       lineNums.classList.add("hidden");
     }
   };
+
+  useEffect(() => {
+    return () => {
+      setSelectedCodeBlockObj({});
+      console.log("go back clicked");
+      socket.emit("leaving");
+      localStorage.removeItem("mentorSelectedCodeBlockWithId");
+      localStorage.removeItem("role");
+      // navigate("/lobby", { state: { prev: "code" } });
+    };
+  }, []);
 
   return (
     <>
