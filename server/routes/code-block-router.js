@@ -7,6 +7,7 @@ router.post("/new", async (req, res) => {
   const codeBlock = new CodeBlock({
     title: req.body.title,
     code: req.body.code,
+    solution: req.body.solution,
   });
 
   try {

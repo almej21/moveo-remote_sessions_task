@@ -1,7 +1,7 @@
 import { AppState } from "context/AppProvider";
 import Prism from "prismjs";
 import { useEffect, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "styles/prism-cb.css";
@@ -23,14 +23,12 @@ function createNumberArray(n) {
 }
 
 const CodePage = () => {
-  const navigate = useNavigate();
   const codeBlockRef = useRef(null);
   const notify = () =>
     toast.success("Saved!", {
       toastId: "Saved",
     });
   const { id } = useParams();
-  const currCodeBlockId = id;
   const { selectedCodeBlockObj, setSelectedCodeBlockObj, socket } = AppState();
 
   if (isEmpty(selectedCodeBlockObj)) {
@@ -40,13 +38,13 @@ const CodePage = () => {
 
         setTimeout(() => {
           Prism.highlightAll();
-        }, 10);
+        }, 5);
       })
       .catch((error) => {
         console.log(error);
       });
   } else {
-    var lineNumArr = createNumberArray(36);
+    var lineNumArr = createNumberArray(33);
   }
 
   useEffect(() => {
@@ -74,6 +72,13 @@ const CodePage = () => {
   }, [socket]);
 
   const handleChange = (codeBlock) => {
+    if (selectedCodeBlockObj.solution === codeBlock.target.outerText) {
+      const notify = () =>
+        toast.success(`great job! 😊`, {
+          toastId: "smiley",
+        });
+      notify();
+    }
     socket.emit("typing", codeBlock.target.outerText);
   };
 
@@ -87,6 +92,14 @@ const CodePage = () => {
         notify();
       })
       .catch((err) => {});
+  };
+
+  const handleShowSolution = () => {
+    codeBlockRef.current.textContent = selectedCodeBlockObj.solution;
+    // setSelectedCodeBlockObj({
+    //   ...selectedCodeBlockObj,
+    //   code: selectedCodeBlockObj.solution,
+    // });
   };
 
   const toggleHidden = () => {
@@ -141,26 +154,18 @@ const CodePage = () => {
             className="language-javascript"
             onInput={handleChange}
             suppressContentEditableWarning={true}
+            spellcheck="false"
           >
             {selectedCodeBlockObj.code}
           </code>
         </pre>
       </div>
+      <div className="btn solution-btn" onClick={handleShowSolution}>
+        SHOW SOLUTION
+      </div>
       <div className="btn save-btn" onClick={handleSave}>
         SAVE
       </div>
-      {/* <ToastContainer
-        position="top-center"
-        autoClose={2500}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      /> */}
     </>
   );
 };
