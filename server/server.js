@@ -16,7 +16,8 @@ const server = http.createServer(app);
 const io = new Server(server, {
   pingTimeout: 60000,
   cors: {
-    origin: ["http://localhost:3000"],
+    // origin: ["http://localhost:3000", ],
+    origin: "*",
   },
 });
 
@@ -43,7 +44,7 @@ mongoose
   })
   .catch((err) => {
     console.log(chalk.bgRed("error with connecting to DB"));
-    console.log(err.response);
+    console.log(err);
   });
 const db = mongoose.connection;
 app.use(express.json());
