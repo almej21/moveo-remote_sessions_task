@@ -46,11 +46,10 @@ mongoose
     console.log(chalk.bgRed("error with connecting to DB"));
     console.log(err);
   });
-const db = mongoose.connection;
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "*",
     methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
     credentials: true,
   })
