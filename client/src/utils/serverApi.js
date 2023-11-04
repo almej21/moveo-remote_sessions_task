@@ -3,7 +3,7 @@ import axios from "axios";
 export const fetchCodeBlocks = () => {
   return new Promise((resolve, reject) => {
     axios({
-      url: "http://localhost:4000/codeblock/all",
+      url: "/codeblock/all",
       method: "GET",
       withCredentials: true,
     })
@@ -11,6 +11,7 @@ export const fetchCodeBlocks = () => {
         resolve(res.data);
       })
       .catch((err) => {
+        console.log("ERROR:", err);
         reject(err);
       });
   });
@@ -19,7 +20,7 @@ export const fetchCodeBlocks = () => {
 export const fetchCodeBlockById = (id) => {
   return new Promise((resolve, reject) => {
     axios
-      .get("http://localhost:4000/codeblock", {
+      .get("/codeblock", {
         params: {
           targetId: id,
         },
@@ -28,7 +29,7 @@ export const fetchCodeBlockById = (id) => {
         resolve(response.data);
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.log("Error:", error);
         reject(error);
       });
   });
@@ -37,7 +38,7 @@ export const fetchCodeBlockById = (id) => {
 export const saveCode = (data) => {
   return new Promise((resolve, reject) => {
     axios
-      .put("http://localhost:4000/codeblock/update", data)
+      .put("/codeblock/update", data)
       .then((res) => {
         resolve(res.data);
       })

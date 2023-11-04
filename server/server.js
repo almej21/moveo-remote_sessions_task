@@ -49,9 +49,7 @@ mongoose
 app.use(express.json());
 app.use(
   cors({
-    origin: "*",
-    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
-    credentials: true,
+    origin: "https://moveo-remote-sessions-task.onrender.com",
   })
 );
 
