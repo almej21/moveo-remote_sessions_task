@@ -32,6 +32,9 @@
 .code-container {
   display: flex;
   min-width: 36rem;
+  @media (max-width: 600px) {
+    width: 20rem;
+  }
   @media (max-width: 1000px) {
     width: 40rem;
   }
@@ -64,8 +67,11 @@
 .pre {
   overflow: hidden;
   margin: 0 !important;
-  height: 46rem;
-  min-width: 36rem;
+  height: 47rem;
+  width: 55rem;
+  @media (max-width: 1000px) {
+    width: 36rem;
+  }
 }
 
 .language-js {

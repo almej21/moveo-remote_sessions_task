@@ -21,6 +21,7 @@ router.post("/new", async (req, res) => {
 
 //get all code blocks.
 router.get("/all", async (req, res) => {
+  console.log("get all code blocks request");
   try {
     const codeBlocks = await CodeBlock.find({}).lean();
     if (!codeBlocks) {
@@ -56,6 +57,8 @@ router.get("", async (req, res) => {
 });
 
 router.put("/update", async (req, res) => {
+  console.log("save code block request");
+
   const { codeBlockId, code } = req.body;
 
   const updatedCodeBlock = await CodeBlock.findByIdAndUpdate(codeBlockId, {

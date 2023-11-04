@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as LocalStorage from "utils/localStorage";
+import * as ServerApi from "utils/serverApi";
 import "./lobbyPage.scss";
 
 const LobbyPage = () => {
@@ -69,7 +70,13 @@ const LobbyPage = () => {
     }
     navigate(`/codeblock/${codeBlockObj._id}`);
     socket.emit("joining", codeBlockObj);
-    setSelectedCodeBlockObj(codeBlockObj);
+    ServerApi.fetchCodeBlockById(codeBlockObj._id)
+      .then((codeBlock) => {
+        setSelectedCodeBlockObj(codeBlock);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

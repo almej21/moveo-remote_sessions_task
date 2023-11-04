@@ -24,10 +24,7 @@ function createNumberArray(n) {
 
 const CodePage = () => {
   const codeBlockRef = useRef(null);
-  const notify = () =>
-    toast.success("Saved!", {
-      toastId: "Saved",
-    });
+
   const { id } = useParams();
   const { selectedCodeBlockObj, setSelectedCodeBlockObj, socket } = AppState();
 
@@ -48,7 +45,6 @@ const CodePage = () => {
   }
 
   useEffect(() => {
-
     if (LocalStorage.get("role") === "student") {
       codeBlockRef.current.contentEditable = true;
     }
@@ -86,9 +82,29 @@ const CodePage = () => {
     };
     ServerApi.saveCode(dataObj)
       .then(() => {
+        const notify = () =>
+          toast.success("Saved!", {
+            toastId: "Saved",
+          });
         notify();
+        ServerApi.fetchCodeBlockById(id)
+          .then((codeBlock) => {
+            setSelectedCodeBlockObj(codeBlock);
+
+            setTimeout(() => {
+              Prism.highlightAll();
+            }, 5);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
-      .catch((err) => {});
+      .catch((err) => {
+        const notify = () =>
+          toast.error(`code did not save! ${err.message}`, {
+            toastId: "error",
+          });
+      });
   };
 
   const handleShowSolution = () => {
