@@ -16,8 +16,8 @@ const server = http.createServer(app);
 const io = new Server(server, {
   pingTimeout: 60000,
   cors: {
-    origin: ["http://localhost:3000"],
-    // origin: "*",
+    // origin: ["http://localhost:3000"], // for dev version
+    origin: "*",
   },
 });
 
@@ -50,34 +50,36 @@ app.use(express.json());
 
 app.use(
   // for local dev use
-  cors({
-    origin: "http://localhost:3000",
-    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
-    credentials: true,
-  })
+  // cors({
+  //   origin: "http://localhost:3000",
+  //   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+  //   credentials: true,
+  // })
 
   // for production use
-  // cors({
-  //   origin: "https://moveo-remote-sessions-task.onrender.com",
-  // })
+  cors({
+    origin: "https://moveo-remote-sessions-task.onrender.com",
+  })
 );
 
 app.use("/codeblock", codeBlockRouter);
 
 // ---------------------Deployment---------------
 
-// const __dirname1 = path.resolve();
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(path.join(__dirname1, "/client/build")));
+const __dirname1 = path.resolve();
+if (process.env.NODE_ENV === "production") {
+  console.log("running profuction version");
+  app.use(express.static(path.join(__dirname1, "/client/build")));
 
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.resolve(__dirname1, "client", "build", "index.html"));
-//   });
-// } else {
-//   app.get("/", (req, res) => {
-//     res.send("API is Running Successfully");
-//   });
-// }
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname1, "client", "build", "index.html"));
+  });
+} else {
+  console.log("running dev version");
+  app.get("/", (req, res) => {
+    res.send("API is Running Successfully");
+  });
+}
 
 // ---------------------Deployment---------------
 
