@@ -3,8 +3,8 @@ import axios from "axios";
 export const fetchCodeBlocks = () => {
   return new Promise((resolve, reject) => {
     axios({
-      url: "/codeblock/all", // production
-      // url: "http://localhost:4000/codeblock/all", // local dev
+      // url: "/codeblock/all", // production
+      url: "http://localhost:4000/codeblock/all", // local dev
       method: "GET",
     })
       .then((res) => {
@@ -21,8 +21,8 @@ export const fetchCodeBlockById = (id) => {
   return new Promise((resolve, reject) => {
     axios
       // production
-      .get("/codeblock", {
-        // .get("http://localhost:4000/codeblock", { // local dev
+      // .get("/codeblock", {
+        .get("http://localhost:4000/codeblock", { // local dev
         params: {
           targetId: id,
         },
@@ -40,8 +40,8 @@ export const fetchCodeBlockById = (id) => {
 export const saveCode = (data) => {
   return new Promise((resolve, reject) => {
     axios
-      // .put("http://localhost:4000/codeblock/update", data) // local dev
-      .put("/codeblock/update", data) // production
+      .put("http://localhost:4000/codeblock/update", data) // local dev
+      // .put("/codeblock/update", data) // production
       .then((res) => {
         resolve(res.data);
       })

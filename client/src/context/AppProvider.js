@@ -5,10 +5,10 @@ import * as ServerApi from "utils/serverApi";
 export const AppContext = createContext();
 
 // for local dev use
-// const socket = io.connect("http://localhost:4000");
+const socket = io.connect("http://localhost:4000");
 
 // for production use
-const socket = io.connect("/");
+// const socket = io.connect("/");
 
 const AppProvider = ({ children }) => {
   const [codeBlocks, setCodeBlocks] = useState([]);

@@ -16,8 +16,8 @@ const server = http.createServer(app);
 const io = new Server(server, {
   pingTimeout: 60000,
   cors: {
-    // origin: ["http://localhost:3000"], // for dev version
-    origin: "*",
+    origin: ["http://localhost:3000"], // for dev version
+    // origin: "*",
   },
 });
 
@@ -50,16 +50,16 @@ app.use(express.json());
 
 app.use(
   // for local dev use
-  // cors({
-  //   origin: "http://localhost:3000",
-  //   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
-  //   credentials: true,
-  // })
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+    credentials: true,
+  })
 
   // for production use
-  cors({
-    origin: "https://moveo-remote-sessions-task.onrender.com",
-  })
+  // cors({
+  // origin: "https://moveo-remote-sessions-task.onrender.com",
+  // })
 );
 
 app.use("/codeblock", codeBlockRouter);
@@ -68,7 +68,7 @@ app.use("/codeblock", codeBlockRouter);
 
 const __dirname1 = path.resolve();
 if (process.env.NODE_ENV === "production") {
-  console.log("running profuction version");
+  console.log("running production version");
   app.use(express.static(path.join(__dirname1, "/client/build")));
 
   app.get("*", (req, res) => {
