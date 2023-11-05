@@ -21,7 +21,7 @@ export const fetchCodeBlockById = (id) => {
   return new Promise((resolve, reject) => {
     axios
       // production
-      .get("/codeblock/codeblock", {
+      .get("/codeblock", {
         // .get("http://localhost:4000/codeblock", { // local dev
         params: {
           targetId: id,
