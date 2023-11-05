@@ -2,4 +2,4 @@
 to run the app on local dev:   
 cd to server folder and run: npm run dev - to start the server   
 cd to client folder and run: npm start - to start the client side   
-then go to http://localhost:3000/ to view the app \n
+then go to http://localhost:3000/ to view the app 
