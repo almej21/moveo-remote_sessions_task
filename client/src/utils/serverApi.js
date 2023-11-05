@@ -3,9 +3,9 @@ import axios from "axios";
 export const fetchCodeBlocks = () => {
   return new Promise((resolve, reject) => {
     axios({
-      url: "/codeblock/all",
+      // url: "/codeblock/all", // production
+      url: "http://localhost:4000/codeblock/all", // local dev
       method: "GET",
-      withCredentials: true,
     })
       .then((res) => {
         resolve(res.data);
@@ -20,7 +20,7 @@ export const fetchCodeBlocks = () => {
 export const fetchCodeBlockById = (id) => {
   return new Promise((resolve, reject) => {
     axios
-      .get("/codeblock", {
+      .get("http://localhost:4000/codeblock", {
         params: {
           targetId: id,
         },
@@ -38,7 +38,7 @@ export const fetchCodeBlockById = (id) => {
 export const saveCode = (data) => {
   return new Promise((resolve, reject) => {
     axios
-      .put("/codeblock/update", data)
+      .put("http://localhost:4000/codeblock/update", data)
       .then((res) => {
         resolve(res.data);
       })
