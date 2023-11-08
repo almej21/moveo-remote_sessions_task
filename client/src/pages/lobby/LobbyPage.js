@@ -16,6 +16,9 @@ const LobbyPage = () => {
 
   useEffect(() => {
     justMounted = true;
+
+    // in case of refresh, or the user navigates back to looby page,
+    // if he still has a role defined, remove it.
     if (LocalStorage.get("role")) {
       socket.emit("leaving");
     }
@@ -61,6 +64,7 @@ const LobbyPage = () => {
       localStorage.removeItem("mentorSelectedCodeBlockWithId");
       localStorage.removeItem("role");
     });
+    
   }, [socket]);
 
   const handleCodeBlockClick = (codeBlockObj) => {

@@ -29,6 +29,8 @@ const CodePage = () => {
   const { selectedCodeBlockObj, setSelectedCodeBlockObj, socket } = AppState();
 
   if (isEmpty(selectedCodeBlockObj)) {
+    // in case of refresh on the code page, the selectedCodeBlockObj state will reset,
+    // if this is the case, fetch the code object again from the server.
     ServerApi.fetchCodeBlockById(id)
       .then((codeBlock) => {
         setSelectedCodeBlockObj(codeBlock);
@@ -80,30 +82,26 @@ const CodePage = () => {
       codeBlockId: id,
       code: codeBlockRef.current.outerText,
     };
-    ServerApi.saveCode(dataObj)
-      .then(() => {
+
+    Promise.all([ServerApi.saveCode(dataObj), ServerApi.fetchCodeBlockById(id)])
+      .then((data) => {
         const notify = () =>
           toast.success("Saved!", {
             toastId: "Saved",
           });
         notify();
-        ServerApi.fetchCodeBlockById(id)
-          .then((codeBlock) => {
-            setSelectedCodeBlockObj(codeBlock);
+        setSelectedCodeBlockObj(data[1]);
 
-            setTimeout(() => {
-              Prism.highlightAll();
-            }, 5);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        setTimeout(() => {
+          Prism.highlightAll();
+        }, 5);
       })
       .catch((err) => {
         const notify = () =>
           toast.error(`code did not save! ${err.message}`, {
             toastId: "error",
           });
+        notify();
       });
   };
 
